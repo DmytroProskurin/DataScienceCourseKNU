@@ -4,4 +4,36 @@ add <- function(x, y) {
 }
 print(add(5, 7))
 
+# 2. Функція above(x, n), яка приймає вектор та число n, та повертає всі елементі вектору, 
+# які більше n. По замовчуванню n = 10.
+above <- function(x, n = 10) {
+    return(x[which(x > n)])
+}
+v <- c(10, 11, -2, 5, 15)
+print(above(v, 9))
+print(above(v))
+
+# 3. Функція my_ifelse(x, exp, n), яка приймає вектор x, порівнює всі його елементи за допомогою exp з n, 
+# та повертає елементи вектору, які відповідають умові expression. 
+# Наприклад, my_ifelse(x, “>”, 0) повертає всі елементи x, які більші 0. Exp може дорівнювати “<”, “>”, “<=”, “>=”, “==”. 
+# Якщо exp не співпадає ні з одним з цих виразів, повертається вектор x.
+my_ifelse <- function(x, exp, n) {
+    if (exp == "<") {
+        return(x[which(x < n)])
+    } else if (exp == ">") {
+        return(x[which(x > n)])
+    } else if (exp == "<=") {
+        return(x[which(x <= n)])
+    } else if (exp == ">=") {
+        return(x[which(x >= n)])
+    } else if (exp == "==") {
+      return(x[which(x == n)])
+    } else {
+        return(x)
+    }
+}
+v <- c(10, 11, -2, 5, 15)
+print(my_ifelse(v, ">", 7))
+print(my_ifelse(v, "!", 7))
+
 
