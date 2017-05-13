@@ -17,17 +17,3 @@ print(tail(head(y, 20), 11))
 print(y$b[[10]])
 print(y$cc)
 
-# 3. Створіть вектор z з елементами 1, 2, 3, NA, 4, NA, 5, NA. 
-# Для цього вектору: виведіть всі елементи, які не NA; 
-# підрахуйте середнє значення всіх елементів цього вектору без NA значень та з NA значеннями.
-z <- c(1, 2, 3, NA, 4, NA, 5, NA)
-idx <- which(z %in% NA)
-z2 = z[-idx]
-print(z2)
-average_z = mean(z)
-average_z2 = mean(z2)
-
-print(average_z)
-# output NA
-print(average_z2)
-# output 3
