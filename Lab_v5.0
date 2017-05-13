@@ -22,3 +22,55 @@
 [1] 4.064128
 ```
 
+2.	Написати функцію complete, яка виводить кількість повних спостережень (the number of completely observed cases) для кожного файлу. Функція приймає два аргументи: «Directory» та «id» та повертає data frame, в якому перший стовпчик – ім’я файлу, а другий – кількість повних спостережень. Приклад роботи функції:
+complete("specdata", 1)
+```r
+> complete<-function(directory, id){
++     observed_cases<-c()
++     for(i in id) {
++         path <- sprintf("%s\\%03d.csv", directory, i)
++         df <- read.csv(path)
++         observed_cases<-append(observed_cases, nrow(subset(df, complete.cases(df))))
++     }
++     data.frame(id, observed_cases)
++ }
+
+
+> complete(d, 1)
+  id observed_cases
+1  1            117
+
+
+> complete(d, c(2, 4, 8, 10, 12))
+  id observed_cases
+1  2           1041
+2  4            474
+3  8            192
+4 10            148
+5 12             96
+```
+
+3.	Написати функцію corr, яка приймає два аргументи: directory (папка, де знаходяться файли спостережень) та threshold (порогове значення, за замовчуванням дорівнює 0) та обчислює кореляцію між сульфатами та нітратами для моніторів, кількість повних спостережень для яких більше порогового значення. Функція повинна повернути вектор значень кореляцій. Якщо ні один монітор не перевищує порогового значення, функція повинна повернути numeric вектор довжиною 0. Для обчислення кореляції між сульфатами та нітратами використовуйте вбудовану функцію «cor» з параметрами за замовчуванням.
+Приклад роботи функції:
+```r
+> corr<-function(directory, threshold = 0) {
++     dfcases <- complete(directory, 1:332)
++     ids <- subset(dfcases, dfcases$observed_cases > threshold)$id
++     
++     result <- c()
++     for(i in ids) {
++         path <- sprintf("%s\\%03d.csv", directory, i)
++         df <- read.csv(path)
++         df <- subset(df, complete.cases(df))
++         result <- append(result, cor(df$nitrate, df$sulfate))
++     }
++     unlist(result)
++ }
+
+> cr <- corr(d, 150)
+> head(cr); summary(cr)
+> head(cr); summary(cr)
+[1] -0.22255256 -0.01895754 -0.14051254 -0.04389737 -0.06815956 -0.12350667
+    Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
+-1.00000 -0.05282  0.10720  0.13680  0.27830  1.00000 
+```
